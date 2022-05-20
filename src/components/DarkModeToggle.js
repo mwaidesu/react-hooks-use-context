@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
+import ThemedButton from "./ThemedButton";
+import DarkModeToggle from "./DarkModeToggle";
+import defaultUser from "../data";
+import { UserContext } from "../context/user";
 
-function DarkModeToggle({ theme, setTheme }) {
-  function handleToggleTheme(e) {
-    setTheme(e.target.checked ? "dark" : "light");
+function Header() {
+  const { user, setUser } = useContext(UserContext);
+  function handleLogin() {
+    if (user) {
+      setUser(null);
+    } else {
+      setUser(defaultUser);
+    }
   }
+
   return (
-    <label>
-      Dark Mode
-      <input
-        type="checkbox"
-        checked={theme === "dark"}
-        onChange={handleToggleTheme}
-      />
-    </label>
+    <header>
+      <h1>React Context</h1>
+      <nav>
+        <ThemedButton onClick={handleLogin}>
+          {user ? "Logout" : "Login"}
+        </ThemedButton>
+        <DarkModeToggle />
+      </nav>
+    </header>
   );
 }
 
-export default DarkModeToggle;
+export default Header;
